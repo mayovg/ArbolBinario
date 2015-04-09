@@ -127,22 +127,25 @@ updateHeight(vertex * a)
 }
 
 void 
-leftRotation(vertex ** a)
+leftRotation(vertex * a)
 {
     vertex * a1;
-    a1 = a*->left;
-    a*->left = a1->right;
-    a1->right = *a;
-    updateHeight(*a);
+    a1 = a->left;
+    a->left = a1->right;
+    a1->right = a;
+    updateHeight(a);
     updateHeight(a1);
-    *a = a1; //Update root
+    a = a1; //Update root
 }
-void rightRotation(vertex ** a)
+void rightRotation(vertex * a)
 {
     vertex * a1;
-    a1 = *a->right;
-    *a->right = a1->left;
-    a1->left = *a;
+    a1 = a->right;
+    a->right = a1->left;
+    a1->left = a;
+    updateHeight(a);
+    updateHeight(a1);
+    a = a1;
 }
 
 void rebalance(vertex * v)
@@ -152,7 +155,7 @@ void rebalance(vertex * v)
         return;
     balance = height(v->left) - height (v->right);
     if (balance == 0){
-        rebalance(v->dad)
+        rebalance(v->dad);
         return;
     }
     else if(balance == -2){
@@ -168,7 +171,6 @@ void rebalance(vertex * v)
         rightRotation(v);
     }
     rebalance(v->dad);
-    }
 }
 void 
 printInOrder(vertex * root)
