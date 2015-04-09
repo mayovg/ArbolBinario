@@ -58,7 +58,35 @@ search(vertex * a, vertex * v)
 void
 removeVer(vertex * a,vertex * v)
 {
-    if(search(a,v) == NULL)
+	vertex * aux;
+	if(v->value < a->value)
+		removeVer(a->left,v);
+	else if (v->value > a->value);
+		removeVer(a->right,v):
+	else
+	{
+		if (v->left == NULL && v->right == NULL)
+			free(v);
+		else if (v->left == NULL)
+		{
+			aux = v;
+			v = v->right;
+			free(aux);
+		}
+		else if v->right == NULL)
+		{
+			aux = v;
+			v = v->left;
+			free(aux);
+		}
+		else
+		{
+			v->value = removeMin(v->right);
+		}
+	}
+	rebalance(v);
+	updateHeight(v);
+    /*if(search(a,v) == NULL)
         return;
     if(v->dad->left == v && v->left != NULL)
         v->left->left = v->left;
@@ -68,8 +96,33 @@ removeVer(vertex * a,vertex * v)
         v->dad->right = v->left;
     else
         v->dad->right = v->right;
-    free(v);
-    
+    free(v);*/
+}
+
+int
+removeMin(vertex * v)
+{
+	if(v == NULL)
+		return 0;
+	else 
+	{
+		if (v->left != NULL)
+		{
+			int x = removeMin(&(v->left));
+			rebalance(v);
+			updateHeight(v);
+			return x;
+		}
+		else
+		{
+			vertex * aux = v;
+			int x = aux->value;
+			free(aux);
+			rebalance(v);
+			updateHeight(v);
+			return x;
+		}
+	}
 }
 
 vertex * 
